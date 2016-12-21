@@ -40,7 +40,7 @@ server.all('*', function(req, res) {
     var logMsg = `Request against ${req.method} ${req.originalUrl} at ${now}`;
     console.log(logMsg);
     logHeaders(req.headers);
-    logs.push({
+    logs.unshift({
         message: logMsg,
         time: now.valueOf(),
         method: req.method,
