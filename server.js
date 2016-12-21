@@ -1,6 +1,7 @@
 var express = require('express');
 var moment = require('moment');
 
+var port = process.env.PORT || 3000;
 var server = express();
 
 var logs = [];
@@ -23,6 +24,6 @@ server.get('*', function(req, res) {
     });
 })
 
-server.listen(3000, function() {
-    console.log('listening on port 3000');
+server.listen(port, function() {
+    console.log('listening on port ' + port);
 })
