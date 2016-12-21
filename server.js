@@ -1,5 +1,6 @@
 var express = require('express');
 var moment = require('moment');
+var bodyParser = require('body-parser');
 
 var port = process.env.PORT || 3000;
 var server = express();
@@ -11,6 +12,9 @@ var logHeaders = function(headers) {
     console.log(JSON.stringify(headers, null, 2))
     console.log('---------------------')
 }
+
+server.use(bodyParser.json()); // for parsing application/json
+server.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
 
 server.get('/logs', function(req, res) {
     res.json(logs);
@@ -29,7 +33,7 @@ server.get('/favicon.ico', function(req, res) {
     })
 })
 
-server.get('*', function(req, res) {
+server.all('*', function(req, res) {
     var now = moment();
     var timestamp = now.format('MMMM Do YYYY, h:mm:ss a');
     var logMsg = `Request against ${req.originalUrl} at ${now}`;
@@ -38,7 +42,12 @@ server.get('*', function(req, res) {
     logs.push({
         message: logMsg,
         time: now.valueOf(),
-        headers: req.headers
+        headers: req.headers,
+        params: req.params,
+        path: req.path,
+        url: req.originalUrl,
+        query: req.query,
+        body: req.body
     });
 
     res.json({
