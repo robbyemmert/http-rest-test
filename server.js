@@ -10,6 +10,12 @@ server.get('/logs', function(req, res) {
     res.json(logs);
 })
 
+server.get('/favicon.ico', function(req, res) {
+    res.status(404).json({
+        message: 'No favicon available for API endpoints.'
+    })
+})
+
 server.get('*', function(req, res) {
     var now = moment().format('MMMM Do YYYY, h:mm:ss a');
     var logMsg = `Request against ${req.originalUrl} at ${now}`;
