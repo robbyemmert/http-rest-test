@@ -17,11 +17,13 @@ server.get('/favicon.ico', function(req, res) {
 })
 
 server.get('*', function(req, res) {
-    var now = moment().format('MMMM Do YYYY, h:mm:ss a');
+    var now = moment();
+    var timestamp = now.format('MMMM Do YYYY, h:mm:ss a');
     var logMsg = `Request against ${req.originalUrl} at ${now}`;
     console.log(logMsg);
     logs.push({
-        message: logMsg
+        message: logMsg,
+        time: now.valueOf()
     });
 
     res.json({
